@@ -3,7 +3,7 @@ An empty Defold project for creating new projects without the Defold dashboard.
 
 ***Note: This is only for use with Editor 2!***  To use the original, stable, Defold editor you must create your projects through the Defold dashboard. However, I have been using Editor 2 just fine for a while now. Since they recently added bundling functionality to Editor 2 I haven't found any reason to use Editor 1. 
 
-At the moment this is a totally barebones project with only the most basic scene set up so something shows appears when you run it. In the future I might add in some basic framework stuff that makes more sense than the built-ins. If you have any feedback on this please make an issue. 
+At the moment this is a totally barebones project with only the most basic scene set up so something appears when you run it. In the future I might add in some basic framework stuff that makes more sense than the built-ins. If you have any feedback on this please make an issue. 
 
 #### Instructions:
 1. Download a zip of this repo with the green "Clone or download" button. Unzip it wherever you want your project files to be and presumably rename the folder. 
