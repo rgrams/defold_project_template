@@ -17,9 +17,6 @@ images {
   image: "/main/common/textures/TEX_Dot_Soft.png"
 }
 images {
-  image: "/main/common/textures/TEX_Map_Particle_Fire.png"
-}
-images {
   image: "/main/common/textures/TEX_Square_1.png"
 }
 images {
