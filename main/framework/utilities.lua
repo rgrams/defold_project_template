@@ -30,7 +30,6 @@ function M.sign(x)
 	end
 end
 
-
 -- Find (in array)
 function M.find(t, val)
 	for i, v in ipairs(t) do
