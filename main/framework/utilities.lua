@@ -23,6 +23,14 @@ function M.clamp(x, min, max)
 	return math.max(min, math.min(max, x))
 end
 
+--Sign
+function M.sign(x)
+	if x >= 0 then return 1
+	else return -1
+	end
+end
+
+
 -- Find (in array)
 function M.find(t, val)
 	for i, v in ipairs(t) do
