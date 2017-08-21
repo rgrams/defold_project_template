@@ -1,13 +1,15 @@
 
 -- ########   An orthographic render script with a fixed aspect ratio.   ########
 
--- Will render the same area of world-space pixels (original_width x original_height), centered around the camera position.
+-- Will render a fixed area of world-space pixels (original_width x original_height), centered around the camera position.
 -- The window can be resized in any way and the render area will maintain aspect ratio at the largest size that fits.
--- Set original_width and original_height in init() to the desired view area.
--- The display width and height in your game.project file will only determine the inital window size.
--- Use the 'window_manager' module to get the view area extents from game scripts. 
 
-local windowman = require "main.framework.window_manager"
+-- IMPORTANT: Set original_width and original_height in init() to the desired world-space view area.
+
+-- The display width and height in your game.project file will only determine the inital window size.
+-- Use the 'window_manager' module to get the view area extents from game scripts.
+
+local winman = require "main.framework.window_manager"
 local original_width
 local original_height
 local window_width
@@ -35,8 +37,6 @@ function init(self)
 	self.projection = vmath.matrix4()
 	original_width = 800
 	original_height = 550
-	windowman.halfx = original_width / 2
-	windowman.halfy = original_height / 2
 
 	update_window()
 end
@@ -91,9 +91,14 @@ end
 function update_window()
 	window_width = render.get_window_width()
 	window_height = render.get_window_height()
+	winman.halfx, winman.halfy = window_width / 2, window_height / 2
+
 	local zoom_factor = math.min(window_width / original_width, window_height / original_height)
+	winman.scale = zoom_factor
+
 	final_width = original_width * zoom_factor
 	final_height = original_height * zoom_factor
 	xoffset = -(final_width - window_width) / 2
 	yoffset = -(final_height - window_height) / 2
+	winman.barOffset.x, winman.barOffset.y = xoffset, yoffset
 end
