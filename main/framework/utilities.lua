@@ -1,11 +1,19 @@
+-- Version 1.0
 
 local M = {}
 
 
--- Angle-Diff (gets the smallest angle between two angles, uses radians)
+-- Angle-Diff (gets the smallest angle between two angles, using radians)
 function M.anglediff_rad(rad1, rad2)
 	local a = rad1 - rad2
 	a = (a + math.pi) % (math.pi * 2) - math.pi
+	return a
+end
+
+-- Angle-Diff (gets the smallest angle between two angles, using degrees)
+function M.anglediff_deg(deg1, deg2)
+	local a = deg1 - deg2
+	a = (a + 180) % (180 * 2) - 180
 	return a
 end
 
@@ -20,7 +28,10 @@ end
 
 -- Clamp
 function M.clamp(x, min, max)
-	return math.max(min, math.min(max, x))
+	if x > max then x = max
+	elseif x < min then x = min
+	end
+	return x
 end
 
 --Sign
