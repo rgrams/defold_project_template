@@ -1,4 +1,4 @@
--- Version 1.0
+-- Version 1.2
 
 local M = {}
 
@@ -41,14 +41,14 @@ function M.sign(x)
 	end
 end
 
--- Find (in array)
+-- Find (in table)
 function M.find(t, val)
 	for i, v in ipairs(t) do
 		if v == val then return i end
 	end
 end
 
--- Find & Remove (from array)
+-- Find & Remove (from table)
 function M.find_remove(t, val)
 	for i, v in ipairs(t) do
 		if v == val then
@@ -56,6 +56,33 @@ function M.find_remove(t, val)
 			return i
 		end
 	end
+end
+
+-- Make a shallow copy of a table
+function M.shallow_copy(t)
+	local t2 = {}
+	for k,v in pairs(t) do
+		t2[k] = v
+	end
+	return t2
+end
+
+-- Make a deep copy of a table
+function M.deep_copy(t)
+	local t2 = {}
+	for k, v in pairs(t) do
+		if type(v) == "table" then
+			t2[k] = M.deep_copy(v)
+		else
+			t2[k] = v
+		end
+	end
+	return t2
+end
+
+-- Swap two elements in table
+function M.swap_elements(t, i1, i2)
+	t[i1], t[i2] = t[i2], t[i1]
 end
 
 -- Next index in array (looping)
