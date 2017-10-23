@@ -1,10 +1,11 @@
 [project]
 title = My project
 version = 0.1
+dependencies = https://github.com/rgrams/rendercam/archive/master.zip https://github.com/rgrams/another_defold_timer/archive/master.zip
 
 [bootstrap]
 main_collection = /main/main.collectionc
-render = /main/render/my.renderc
+render = /rendercam/rendercam.renderc
 
 [physics]
 scale = 0.02
