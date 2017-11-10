@@ -1,4 +1,4 @@
--- Version 1.3
+-- Version 1.4
 
 local M = {}
 
@@ -6,25 +6,33 @@ local M = {}
 local PI = math.pi
 local TWO_PI = PI * 2
 local YVECT = vmath.vector3(0, 1, 0)
+local NEG_YVECT = vmath.vector3(0, -1, 0)
 local XVECT = vmath.vector3(1, 0, 0)
+local NEG_XVECT = vmath.vector3(-1, 0, 0)
 local QUAT180 = vmath.quat_rotation_z(PI)
 
 
--- Angle-Diff (gets the smallest angle between two angles, using radians)
+-- Apply torque to a dynamic collision object component
+function M.apply_torque(url, worldpos, t)
+	local halft = t / 2
+	msg.post(url, "apply_force", { force = NEG_XVECT * halft, position = worldpos + NEG_YVECT })
+	msg.post(url, "apply_force", { force = XVECT * halft, position = worldpos + YVECT })
+end
+
+-- Get the smallest angle between two angles, in radians
 function M.anglediff_rad(rad1, rad2)
 	local a = rad1 - rad2
 	a = (a + PI) % (TWO_PI) - PI
 	return a
 end
 
--- Angle-Diff (gets the smallest angle between two angles, using degrees)
+-- Get the smallest angle between two angles, in degrees
 function M.anglediff_deg(deg1, deg2)
 	local a = deg1 - deg2
 	a = (a + 180) % (180 * 2) - 180
 	return a
 end
 
--- Round
 function M.round(x)
 	local a = x % 1
 	x = x - a
@@ -32,7 +40,6 @@ function M.round(x)
 	return x + a
 end
 
--- Clamp
 function M.clamp(x, min, max)
 	if x > max then x = max
 	elseif x < min then x = min
@@ -40,19 +47,18 @@ function M.clamp(x, min, max)
 	return x
 end
 
---Sign
 function M.sign(x)
 	return x >= 0 and 1 or -1
 end
 
--- Find (in table)
+-- Find index of value in table
 function M.find(t, val)
 	for i, v in ipairs(t) do
 		if v == val then return i end
 	end
 end
 
--- Find & Remove (from table)
+-- Find & Remove value from table
 function M.find_remove(t, val)
 	for i, v in ipairs(t) do
 		if v == val then
@@ -131,7 +137,7 @@ function M.scripturl(path)
 end
 
 -- Random float from -1 to 1
-function M.rand11()
+function M.rand_1_to_1()
 	return((math.random() - 0.5) * 2)
 end
 
