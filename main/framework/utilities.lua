@@ -1,12 +1,19 @@
--- Version 1.2
+-- Version 1.3
 
 local M = {}
+
+
+local PI = math.pi
+local TWO_PI = PI * 2
+local YVECT = vmath.vector3(0, 1, 0)
+local XVECT = vmath.vector3(1, 0, 0)
+local QUAT180 = vmath.quat_rotation_z(PI)
 
 
 -- Angle-Diff (gets the smallest angle between two angles, using radians)
 function M.anglediff_rad(rad1, rad2)
 	local a = rad1 - rad2
-	a = (a + math.pi) % (math.pi * 2) - math.pi
+	a = (a + PI) % (TWO_PI) - PI
 	return a
 end
 
@@ -21,8 +28,7 @@ end
 function M.round(x)
 	local a = x % 1
 	x = x - a
-	if a < 0.5 then a = 0
-	else a = 1 end
+	a = a < 0.5 and 0 or 1
 	return x + a
 end
 
@@ -36,9 +42,7 @@ end
 
 --Sign
 function M.sign(x)
-	if x >= 0 then return 1
-	else return -1
-	end
+	return x >= 0 and 1 or -1
 end
 
 -- Find (in table)
@@ -95,6 +99,7 @@ end
 
 -- Previous index in array (looping)
 function M.previ(t, i)
+	if #t == 0 then return 0 end
 	i = i - 1
 	if i < 1 then i = #t end
 	return i
@@ -110,14 +115,14 @@ function M.prevval(t, i)
 	return t[M.previ(t, i)]
 end
 
--- Vect to Quat
-function M.vect_to_quat(vect)
-	return vmath.quat_rotation_z(math.atan2(vect.y, vect.x))
+-- Quat needed to rotate the local Y axis to the supplied -unit- vector
+function M.vec_to_quat_y(vec)
+	return vec.y == -1 and QUAT180 or vmath.quat_from_to(YVECT, vec)
 end
 
--- Vect to Quat + 90 degrees (perpendicular)
-function M.vect_to_quat90(vect)
-	return vmath.quat_rotation_z(math.atan2(vect.y, vect.x) + math.pi/2)
+-- Quat needed to rotate the local X axis to the supplied -unit- vector
+function M.vec_to_quat_x(vec)
+	return vec.x == -1 and QUAT180 or vmath.quat_from_to(XVECT, vec)
 end
 
 -- Get script URL
@@ -133,6 +138,11 @@ end
 -- Random float in range
 function M.rand_range(min, max)
 	return math.random() * (max - min) + min
+end
+
+-- Random unit vector on the XY plane
+function M.rand_vec_2d()
+	return vmath.rotate(vmath.quat_rotation_z(math.random()*TWO_PI), YVECT)
 end
 
 
