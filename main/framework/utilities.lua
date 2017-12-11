@@ -1,4 +1,4 @@
--- Version 1.4
+-- Version 1.5
 
 local M = {}
 
@@ -45,6 +45,16 @@ function M.clamp(x, min, max)
 	elseif x < min then x = min
 	end
 	return x
+end
+
+-- Clamp length of vector
+-- 		max and min are switched because min is optional
+function M.clamp_vec(v, max, min)
+	min = min or 0
+	local l = vmath.length(v)
+	local l2 = l > max and max or (l < min and min or l)
+	if l2 ~= l then v = vmath.normalize(v) * l2 end -- only need to call vmath.normalize if v will actually be changed
+	return v, l2 -- also return length so users doesn't have to call that again if they need it
 end
 
 function M.sign(x)
