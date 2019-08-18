@@ -3,6 +3,18 @@ key_trigger {
   action: "escape"
 }
 key_trigger {
+  input: KEY_F10
+  action: "profiler"
+}
+key_trigger {
+  input: KEY_R
+  action: "restart"
+}
+key_trigger {
+  input: KEY_P
+  action: "pause"
+}
+key_trigger {
   input: KEY_UP
   action: "up"
 }
@@ -16,6 +28,34 @@ key_trigger {
 }
 key_trigger {
   input: KEY_RIGHT
+  action: "right"
+}
+key_trigger {
+  input: KEY_COMMA
+  action: "up"
+}
+key_trigger {
+  input: KEY_O
+  action: "down"
+}
+key_trigger {
+  input: KEY_A
+  action: "left"
+}
+key_trigger {
+  input: KEY_E
+  action: "right"
+}
+key_trigger {
+  input: KEY_W
+  action: "up"
+}
+key_trigger {
+  input: KEY_S
+  action: "down"
+}
+key_trigger {
+  input: KEY_D
   action: "right"
 }
 mouse_trigger {
