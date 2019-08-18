@@ -1,0 +1,88 @@
+
+require "lib.math-patch"
+
+local rendercam = require "rendercam.rendercam"
+local input = require "lib.inputState"
+
+local ESCAPE = hash("escape")
+local PAUSE = hash("pause")
+local RESTART = hash("restart")
+local PROFILER = hash("profiler")
+local PROXY_LOADED = hash("proxy_loaded")
+local PROXY_UNLOADED = hash("proxy_unloaded")
+local GAME_LOST = hash("game lost")
+local GAME_OVER = hash("game over")
+
+local menuCam = hash("/menu camera")
+local gameCam = hash("/game camera")
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	msg.post("proxies#game", "load")
+	self.state = "ready"
+	self.paused = false
+	self.profilerEnabled = false
+end
+
+local function setPaused(self, paused, isGameStart)
+	if paused == nil then  self.paused = not self.paused
+	elseif type(paused) == "boolean" then  self.paused = paused
+	end
+
+	if self.paused then
+		self.state = "paused"
+		rendercam.activate_camera(menuCam)
+		msg.post("proxies#game", "set_time_step", {factor = 0, mode = 0})
+		msg.post("proxies", "release_input_focus")
+	else
+		self.state = "playing"
+		if not isGameStart then  rendercam.activate_camera(gameCam)  end
+		msg.post("proxies#game", "set_time_step", {factor = 1, mode = 0})
+		msg.post("proxies", "acquire_input_focus")
+	end
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == PROXY_LOADED then
+		msg.post("proxies", "acquire_input_focus")
+		msg.post(sender, "enable")
+		setPaused(self, false, true)
+		self.state = "playing"
+	elseif message_id == PROXY_UNLOADED then
+		if self.state == "waiting to load" then
+			msg.post("proxies#game", "load")
+			-- msg.post("#gui", "disable")
+			self.state = "loading"
+		else
+			self.state = "ready"
+		end
+	elseif message_id == GAME_LOST then
+		msg.post("proxies", "release_input_focus")
+	elseif message_id == GAME_OVER then
+		rendercam.activate_camera(menuCam)
+		-- msg.post("#gui", "enable")
+		msg.post("proxies#game", "unload")
+		-- self.state = "unloading"
+		self.state = "waiting to load"
+	end
+end
+
+function on_input(self, action_id, action)
+	if action.pressed or action.released then
+		input.on_input(action_id, action)
+	end
+
+	if action_id == ESCAPE then
+		sys.exit(0)
+	elseif action_id == PAUSE and action.pressed then
+		if self.state == "playing" or self.state == "paused" then
+			setPaused(self)
+		end
+	elseif action_id == RESTART and action.pressed then
+		msg.post("proxies", "release_input_focus")
+		msg.post("#", "game over")
+	elseif action_id == PROFILER and action.pressed then
+		self.profilerEnabled = not self.profilerEnabled
+		profiler.enable_ui(self.profilerEnabled)
+	end
+end

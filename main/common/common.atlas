@@ -1,29 +1,29 @@
 images {
-  image: "/main/common/textures/TEX_Cross_37.png"
+  image: "/main/common/textures/cross_37.png"
 }
 images {
-  image: "/main/common/textures/TEX_Cross_64px.png"
+  image: "/main/common/textures/cross_64.png"
 }
 images {
-  image: "/main/common/textures/TEX_Dot_Hard-ish.png"
+  image: "/main/common/textures/dot_hard-ish_128.png"
 }
 images {
-  image: "/main/common/textures/TEX_Dot_Hard.png"
+  image: "/main/common/textures/dot_hard_64.png"
 }
 images {
-  image: "/main/common/textures/TEX_Dot_Hard_with glow.png"
+  image: "/main/common/textures/dot_hard-with-glow_148.png"
 }
 images {
-  image: "/main/common/textures/TEX_Dot_Soft.png"
+  image: "/main/common/textures/dot_soft_128.png"
 }
 images {
-  image: "/main/common/textures/TEX_Square_1.png"
+  image: "/main/common/textures/square_1.png"
 }
 images {
-  image: "/main/common/textures/TEX_Square_64.png"
+  image: "/main/common/textures/square_64.png"
 }
 images {
-  image: "/main/common/textures/Triangle_64px.png"
+  image: "/main/common/textures/triangle_64.png"
 }
 margin: 0
 extrude_borders: 2
